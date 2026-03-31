@@ -5,7 +5,6 @@
 // git add .
 // git commit -m "Information about the Update"
 // git push
-//
 ---
 
 <!DOCTYPE html>
@@ -240,6 +239,17 @@
       .title-item { padding: 0 12px; font-size: 11px; }
       .footer { flex-direction: column; align-items: flex-start; padding: 20px; gap: 10px; }
     }
+
+    /* ── ANIMATION INITIAL STATES ── */
+    .hero-eyebrow,
+    .hero-name,
+    .hero-rule,
+    .hero-titles,
+    .hero-actions {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
   </style>
 </head>
 <body>
@@ -292,12 +302,32 @@
     <a href="https://www.linkedin.com/in/evan-johnson-sk" class="footer-link" target="_blank">www.linkedin.com/in/evan-johnson-sk</a>
     <a href="mailto:evanjohnson295@gmail.com" class="footer-link">evanjohnson295@gmail.com</a>
     <a href="https://evanjohnson.ca" class="footer-link">evanjohnson.ca</a>
-
   </div>
-
   <span class="footer-loc">Saskatoon, Saskatchewan</span>
-
 </footer>
+
+<script is:inline>
+  window.onload = function() {
+    var elements = [
+      '.hero-eyebrow',
+      '.hero-name',
+      '.hero-rule',
+      '.hero-titles',
+      '.hero-actions'
+    ];
+
+    elements.forEach(function(selector, index) {
+      var el = document.querySelector(selector);
+      if (el) {
+        setTimeout(function() {
+          el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, index * 300);
+      }
+    });
+  }
+</script>
 
 </body>
 </html>
