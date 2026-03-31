@@ -49,7 +49,18 @@ const { title, description, activePage } = Astro.props;
             color: var(--text-1);
             letter-spacing: 0.06em;
             text-decoration: none;
+            position: relative;
+            padding-bottom: 4px;
         }
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--red);
+            transition: width 0.3s ease;
+        }
+        .nav-logo:hover::after { width: 100%; }
         .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links li { list-style: none; }
         .nav-links a {
@@ -147,8 +158,8 @@ const { title, description, activePage } = Astro.props;
 <nav class="nav">
     <a href="/" class="nav-logo">Evan Johnson</a>
     <ul class="nav-links">
-        <li><a href="/currently" class={activePage === 'currently' ? 'active' : ''}>Currently</a></li>
         <li><a href="/about"     class={activePage === 'about'     ? 'active' : ''}>About</a></li>
+        <li><a href="/currently" class={activePage === 'currently' ? 'active' : ''}>Currently</a></li>
         <li><a href="/projects"  class={activePage === 'projects'  ? 'active' : ''}>Projects</a></li>
         <li><a href="/experience" class={activePage === 'experience' ? 'active' : ''}>Experience</a></li>
         <li><a href="/skills"    class={activePage === 'skills'    ? 'active' : ''}>Skills</a></li>
