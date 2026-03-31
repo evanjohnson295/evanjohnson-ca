@@ -22,6 +22,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Exo 2', sans-serif; background: #0a0a0a; color: #e8e8e8; }
+    ul, ol, li { list-style: none; margin: 0; padding: 0; }
 
     /* ── CSS VARIABLES ── */
     :root {
@@ -57,6 +58,7 @@
       text-decoration: none;
     }
     .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links li { list-style: none; }
     .nav-links a {
       font-family: 'DM Mono', monospace;
       font-size: 10px;
@@ -66,8 +68,20 @@
       text-decoration: none;
       text-transform: uppercase;
       transition: color 0.2s ease;
+      position: relative;
+      padding-bottom: 4px;
     }
-    .nav-links a:hover { color: var(--text-1); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--red);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after { width: 100%; }
 
     /* ── HERO ── */
     .hero {
@@ -90,14 +104,15 @@
           linear-gradient(var(--surface-2) 1px, transparent 1px),
           linear-gradient(90deg, var(--surface-2) 1px, transparent 1px);
       background-size: 60px 60px;
-      opacity: 0.6;
+      opacity: 0;
       pointer-events: none;
+      animation: gridFadeIn 2.5s ease forwards;
+      animation-delay: 0.5s;
     }
-    .hero-grid-fade {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, transparent 30%, var(--black) 75%);
-      pointer-events: none;
+
+    @keyframes gridFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 0.6; }
     }
     .hero-eyebrow {
       font-family: 'DM Mono', monospace;
@@ -161,19 +176,23 @@
       position: relative;
       white-space: nowrap;
     }
-    .title-item::after {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1px;
-      height: 12px;
-      background: #222;
+    .title-item {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(11px, 1.3vw, 16px);
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      padding: 0 24px;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+      cursor: default;
     }
-    .title-item:last-child::after { display: none; }
-    .title-item.bright { color: var(--text-1); }
-    .title-item.red    { color: var(--red); }
+    .title-item:hover { color: var(--text-1); }
+    .title-item.bright:hover { color: #fff; }
+    .title-item.red { color: #8b0000; }
+    .title-item.red:hover { color: #cc0000; }
 
     /* ── BUTTONS ── */
     .hero-actions {
@@ -196,11 +215,27 @@
       color: var(--text-3);
       background: transparent;
       text-decoration: none;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease, border-color 0.3s ease;
+      z-index: 0;
     }
-    .btn:hover { border-color: #444; color: var(--text-1); }
+    .btn::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: #222;
+      transition: height 0.3s ease;
+      z-index: -1;
+    }
+    .btn:hover::before { height: 100%; }
+    .btn:hover { color: var(--text-1); border-color: #444; }
+    .btn.primary::before { background: var(--red); }
     .btn.primary { border-color: var(--red); color: var(--red); }
-    .btn.primary:hover { background: var(--red); color: var(--text-1); }
+    .btn.primary:hover { color: var(--text-1); }
 
     /* ── FOOTER ── */
     .footer {
@@ -258,6 +293,7 @@
 <nav class="nav">
   <a href="/" class="nav-logo">Evan Johnson</a>
   <ul class="nav-links">
+    <li><a href="#Currently">Currently</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#experience">Experience</a></li>
